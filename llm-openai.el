@@ -1,9 +1,11 @@
-;;; llm-openai.el --- llm module for integrating with Open AI -*- lexical-binding: t -*-
+;;; llm-openai.el --- LLM module for integrating with Open AI -*- lexical-binding: t -*-
 
 ;; Copyright (c) 2023  Andrew Hyatt <ahyatt@gmail.com>
 
 ;; Author: Andrew Hyatt <ahyatt@gmail.com>
 ;; Homepage: https://github.com/ahyatt/llm
+;; Package-Requires: ((llm "0.1") (request "0.3.3") (emacs "28.1"))
+;; Package-Version: 0.1
 ;; SPDX-License-Identifier: GPL-3.0-or-later
 ;;
 ;; This program is free software; you can redistribute it and/or
@@ -139,7 +141,7 @@ SYNC is non-nil when the request should wait until the response is received."
                               ("parameters" . ,return-json-spec))))
             request-alist)
       (push '("function_call" . (("name" . "output"))) request-alist))
-    
+
     (request "https://api.openai.com/v1/chat/completions"
       :type "POST"
       :sync sync
@@ -150,7 +152,7 @@ SYNC is non-nil when the request should wait until the response is received."
       :success (cl-function
                 (lambda (&key data &allow-other-keys)
                   (let ((result (cdr (assoc 'content (cdr (assoc 'message (aref (cdr (assoc 'choices data)) 0))))))
-                        (func-result (cdr (assoc 'arguments (cdr (assoc 'function_call (cdr (assoc 'message (aref (cdr (assoc 'choices data)) 0)))))))))        
+                        (func-result (cdr (assoc 'arguments (cdr (assoc 'function_call (cdr (assoc 'message (aref (cdr (assoc 'choices data)) 0)))))))))
                     (funcall response-callback (or func-result result)))))
       :error (cl-function (lambda (&key error-thrown data &allow-other-keys)
                             (funcall error-callback

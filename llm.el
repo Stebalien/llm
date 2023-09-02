@@ -4,7 +4,7 @@
 
 ;; Author: Andrew Hyatt <ahyatt@gmail.com>
 ;; Homepage: https://github.com/ahyatt/llm
-;; Package-Requires: ((request "0.3.3") (emacs "28.1"))
+;; Package-Requires: ((emacs "28.1"))
 ;; Package-Version: 0.1
 ;; SPDX-License-Identifier: GPL-3.0-or-later
 ;;
@@ -199,3 +199,4 @@ This should only be used for logging or debugging."
             "")))
 
 (provide 'llm)
+;;; llm.el ends here
